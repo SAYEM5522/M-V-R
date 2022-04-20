@@ -1,9 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Joi from "joi-browser";
 import Form from "./common/form";
-import { getMovie, saveMovie } from "../services/fakeMovieService";
+import {saveMovie } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
+import axios from "axios";
+const GetMovie=(id)=>{
+const [movie,setMovie]=useState([]);
 
+  useEffect(()=>{
+    axios
+    .get("http://localhost:5000/movieList")
+    .then((res) => {
+      setMovie(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  },[])
+  return movie.find((m) => m._id === id);
+}
 class MovieForm extends Form {
   state = {
     data: { title: "", genreId: "", numberInStock: "", dailyRentalRate: "" },
@@ -27,7 +42,7 @@ class MovieForm extends Form {
     this.setState({ genres });
     const movieId = this.props.match.params.id;
     if (movieId === "new") return;
-    const movie = getMovie(movieId);
+    const movie = GetMovie(movieId);
     if (!movie) return this.props.history.replace("/not-found");
     this.setState({ data: this.mapToViewModel(movie) });
   }

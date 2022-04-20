@@ -15,6 +15,13 @@ app.get("/movieList",(req,res)=>{
         res.send(result);
     })
 })
+app.get("/genere",(req,res)=>{
+    connection.query("SELECT * FROM genere",(err,result)=>{
+        if(err) throw err;
+        res.send(result);
+        console.log(result);
+    })
+})
 app.listen(PORT, () => {
-  console.log("Server is running on port 3000");
+  console.log("Server is running on port 5000");
 });

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { getMovies } from "../services/fakeMovieService";
+import axios from "axios";
 import ListGroup from "./common/listGroup";
 import Pagination from "./common/pagination";
 import { paginate } from "../utils/paginate";
@@ -10,6 +11,7 @@ import SearchBox from "./searchBox";
 import { Link } from "react-router-dom";
 
 class Movies extends Component {
+
   state = {
     movies: [],
     genres: [],
@@ -22,10 +24,17 @@ class Movies extends Component {
 
   componentDidMount() {
     const genres = [{ _id: "", name: "All Movies" }, ...getGenres()];
-    console.log(getMovies());
-    this.setState({ movies: getMovies(), genres });
+    axios
+    .get("http://localhost:5000/movieList")
+    .then((res) => {
+        console.log(res.data)
+      this.setState({ movies: res.data, genres });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   }
-
+  
   handleDelete = (movie) => {
     const movies = this.state.movies.filter((m) => m._id !== movie._id);
     this.setState({ movies });
@@ -56,7 +65,7 @@ class Movies extends Component {
   };
 
   getPageData = () => {
-    // console.log(getMovies);
+    
     const {
       pageSize,
       currentPage,

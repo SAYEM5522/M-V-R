@@ -19,6 +19,9 @@ class TableBody extends Component {
       <tbody>
         {this.props.data.map((item) => (
           <tr key={item._id}>
+            {
+              console.log(item)
+            }
             {this.props.columns.map((column) => (
               <td
               // key={this.createKey(item, column)}

@@ -3,9 +3,8 @@ const connection = createPool({
   host: "localhost",
   user: "root",
   password: "",
-  database: "movie",
-  // connectionLimit: 15,
-  // port:"3000",
+  database: "movies",
+
 });
 connection.on("error", (err) => {
   console.log("db error", err);
